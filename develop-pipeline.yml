@@ -1,0 +1,50 @@
+# .NET Standard
+# Default Template by Christian Kovacs
+
+pool:
+  vmImage: 'VS2017-Win2016'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+# Installing Nuget
+- task: NuGetToolInstaller@0
+
+# Nuget Restore
+- task: NuGetCommand@2
+  inputs:
+    restoreSolution: '$(solution)'
+    feedsToUse: 'config'
+
+# Building
+- task: VSBuild@1
+  inputs:
+    solution: '$(solution)'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+# NuGet Pack
+- task: NuGetCommand@2
+  inputs:
+    command: 'pack'
+    feedsToUse: 'config' # Options: select, config
+    packagesToPack: '**/*.nuspec' # Required when command == Pack
+    packDestination: '$(Build.ArtifactStagingDirectory)' # Optional
+    versioningScheme: 'byPrereleaseNumber'
+    majorVersion: '1' # Required when versioningScheme == ByPrereleaseNumber
+    minorVersion: '0' # Required when versioningScheme == ByPrereleaseNumber
+    patchVersion: '0' # Required when versioningScheme == ByPrereleaseNumber
+    packTimezone: 'utc'
+
+# Publish Build Artifacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(Build.ArtifactStagingDirectory)' 
+    artifactName: 'drop' 
+    publishLocation: 'Container' # Options: container, filePath
+    #targetPath: # Required when publishLocation == FilePath
+    #parallel: false # Optional
+    #parallelCount: # Optional

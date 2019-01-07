@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+    <metadata>
+        <id>ShellShell</id>
+
+        <version>1.0.0</version>
+
+        <authors>Razzil Technologies, Project lead: Christian Kovacs </authors>
+
+        <owners>Razzil Technologies</owners>
+
+         <!-- License and project URLs provide links for the gallery 
+        <licenseUrl>http://opensource.org/licenses/MS-PL</licenseUrl>
+        <projectUrl>http://github.com/contoso/UsefulStuff</projectUrl>-->
+
+        <!-- The icon is used in Visual Studio's package manager UI
+        <iconUrl>http://github.com/contoso/UsefulStuff/nuget_icon.png</iconUrl>
+        -->
+
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+
+        <releaseNotes>Initial Release</releaseNotes>
+
+        <description>Provides functionallity to develop CLI applications</description>
+
+        <copyright>Copyright ©2019 Razzil Technologies</copyright>
+
+        <!-- Tags appear in the gallery and can be used for tag searches -->
+        <tags>shell cli</tags>
+
+        <!-- Dependencies are automatically installed when the package is installed
+        <dependencies>
+            <dependency id="Newtonsoft.Json" version="11.0.2" />
+            <dependency id="Steadfast.Web.Core" version="1.0.0" />
+        </dependencies>  -->
+
+        
+    </metadata>
+
+    <files>
+        <file src="bin/Release/netstandard2.0/ShellShell.Core.dll" target="lib" />
+        <file src="bin/Release/netstandard2.0/ShellShell.Core.pdb" target="lib" />
+    </files>
+</package>
