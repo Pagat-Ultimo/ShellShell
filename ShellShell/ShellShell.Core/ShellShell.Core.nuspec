@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2013/07/nuspec.xsd">
     <metadata>
         <id>ShellShell</id>
 
@@ -10,7 +10,7 @@
         <owners>Razzil Technologies</owners>
 
          <!-- License and project URLs provide links for the gallery -->
-        <license type="file">license\license.txt</license>
+        <license type="expression">MIT</license>
         <projectUrl>https://github.com/Pagat-Ultimo/ShellShell</projectUrl>
 
         <!-- The icon is used in Visual Studio's package manager UI
@@ -40,6 +40,5 @@
     <files>
         <file src="bin/Release/netstandard2.0/ShellShell.Core.dll" target="lib" />
         <file src="bin/Release/netstandard2.0/ShellShell.Core.pdb" target="lib" />
-        <file src="../../LICENSE" target="license" />
     </files>
 </package>
