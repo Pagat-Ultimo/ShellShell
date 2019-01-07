@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package xmlns="http://schemas.microsoft.com/packaging/2013/07/nuspec.xsd">
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
     <metadata>
         <id>ShellShell</id>
 
@@ -10,7 +10,10 @@
         <owners>Razzil Technologies</owners>
 
          <!-- License and project URLs provide links for the gallery -->
-        <license type="expression">MIT</license>
+         <!-- deprecated 
+            use  <license type="expression">MIT</license> after devops nuget update-->
+        <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+        
         <projectUrl>https://github.com/Pagat-Ultimo/ShellShell</projectUrl>
 
         <!-- The icon is used in Visual Studio's package manager UI
