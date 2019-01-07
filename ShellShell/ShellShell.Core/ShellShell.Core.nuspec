@@ -9,9 +9,9 @@
 
         <owners>Razzil Technologies</owners>
 
-         <!-- License and project URLs provide links for the gallery 
-        <licenseUrl>http://opensource.org/licenses/MS-PL</licenseUrl>
-        <projectUrl>http://github.com/contoso/UsefulStuff</projectUrl>-->
+         <!-- License and project URLs provide links for the gallery -->
+        <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+        <projectUrl>https://github.com/Pagat-Ultimo/ShellShell</projectUrl>
 
         <!-- The icon is used in Visual Studio's package manager UI
         <iconUrl>http://github.com/contoso/UsefulStuff/nuget_icon.png</iconUrl>
@@ -21,7 +21,7 @@
 
         <releaseNotes>Initial Release</releaseNotes>
 
-        <description>Provides functionallity to develop CLI applications</description>
+        <description>Simple library for creating CLI applications</description>
 
         <copyright>Copyright ©2019 Razzil Technologies</copyright>
 
