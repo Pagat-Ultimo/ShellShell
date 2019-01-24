@@ -9,5 +9,6 @@ namespace ShellShell.Core.Models
         public bool Mandatory { get; set; }
         public string Name { get; set; }
         public string Value { get; set; }
+        public string Description { get; set; }
     }
 }

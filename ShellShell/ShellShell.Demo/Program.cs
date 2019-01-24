@@ -1,14 +1,15 @@
 ﻿using System;
 using ShellShell.Core.Models;
+using ShellShell.Core;
 
 namespace ShellShell.Demo
 {
     class Program
     {
-        public static Core.ShellShell Shell = null;
+        public static ShellShellExecutor Shell = null;
         static void Main(string[] args)
         {
-            Shell = new Core.ShellShell();
+            Shell = new ShellShellExecutor();
             var cmd = new ShellCommand(CommandNames.Command2, Command1);
             cmd.ConfigureSwitch(SwitchesNames.Switch1);
             cmd.ConfigureParameter(ParameterNames.Parameter1, false);
@@ -36,10 +37,10 @@ namespace ShellShell.Demo
 
         }
 
-        static void Command1()
+        static void Command1(ShellShellExecutor shell)
         {
             Console.Write($"GlobalParameter Value {Shell.GetParameterAsString(ParameterNames.Parameter3)} ");
-            if(Shell.GetSwitch(SwitchesNames.Switch1))
+            if(shell.GetSwitch(SwitchesNames.Switch1))
                 Console.WriteLine($"Switch1 shows parameter 2 {Shell.GetParameterAsString(ParameterNames.Parameter2)}");
             else
                 Console.WriteLine($"Switch1 shows parameter 2 {Shell.GetParameterAsString(ParameterNames.Parameter1)}");

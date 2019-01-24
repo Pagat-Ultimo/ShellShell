@@ -1,4 +1,5 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeInspection/Highlighting/InspectionSeverities/=UnusedAutoPropertyAccessor_002EGlobal/@EntryIndexedValue">DO_NOT_SHOW</s:String>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=18B20581C1764E43A941DE77965A94C0/AbsolutePath/@EntryValue">C:\Repos\ShellShell\ShellShell\razzil_v_1_0_1.DotSettings</s:String>
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=18B20581C1764E43A941DE77965A94C0/RelativePath/@EntryValue">..\razzil_v_1_0_1.DotSettings</s:String>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=18B20581C1764E43A941DE77965A94C0/@KeyIndexDefined">True</s:Boolean>
