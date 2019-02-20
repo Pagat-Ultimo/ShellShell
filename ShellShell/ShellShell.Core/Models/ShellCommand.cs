@@ -17,7 +17,7 @@ namespace ShellShell.Core.Models
         public Action<ShellShellExecutor> CommandAction { get; }
 
 
-        private readonly List<ShellParameter> _parameters;
+        public List<ShellParameter> Parameters { get; }
         private readonly Dictionary<string, bool> _switches;
 
         public ShellCommand(string name, Action<ShellShellExecutor> action, string description = "")
@@ -27,12 +27,12 @@ namespace ShellShell.Core.Models
             Description = description;
             Aliases = new List<string>();
             _switches = new Dictionary<string, bool>();
-            _parameters = new List<ShellParameter>();
+            Parameters = new List<ShellParameter>();
         }
 
         public void ConfigureParameter(string name, bool isMandatory = false, string defaultValue = "", string description = "")
         {
-            if(_parameters.Exists(x => x.Name == name))
+            if(Parameters.Exists(x => x.Name == name))
                 throw new Exception($"There is already a parameter with the name {name} for the command {Name} registered");
             var parameter = new ShellParameter()
             {
@@ -41,7 +41,7 @@ namespace ShellShell.Core.Models
                 Value = defaultValue,
                 Description = description
             };
-            _parameters.Add(parameter);
+            Parameters.Add(parameter);
         }
 
         public void ConfigureSwitch(string name, bool defaultValue = false)
@@ -70,7 +70,7 @@ namespace ShellShell.Core.Models
 
         public void SetParameter(string name, string value)
         {
-            var parameter = _parameters.FirstOrDefault(x => x.Name == name);
+            var parameter = Parameters.FirstOrDefault(x => x.Name == name);
             if (parameter != null)
                 parameter.Value = value;
 
@@ -80,17 +80,17 @@ namespace ShellShell.Core.Models
 
         public string GetParameterAsString(string name) 
         {
-            if (!_parameters.Exists(x => x.Name == name))
+            if (!Parameters.Exists(x => x.Name == name))
                 throw new Exception($"Parameter {name} not recognized");
-            var par = _parameters.FirstOrDefault(x => x.Name == name)?.Value;
+            var par = Parameters.FirstOrDefault(x => x.Name == name)?.Value;
             return par;
         }
 
         public int GetParameterAsInt(string name) 
         {
-            if (!_parameters.Exists(x => x.Name == name))
+            if (!Parameters.Exists(x => x.Name == name))
                 throw new Exception($"Parameter {name} not recognized");
-            var par = _parameters.FirstOrDefault(x => x.Name == name)?.Value;
+            var par = Parameters.FirstOrDefault(x => x.Name == name)?.Value;
             if (int.TryParse(par, out var result))
             {
                 return result;
@@ -103,7 +103,7 @@ namespace ShellShell.Core.Models
 
         public List<ShellParameter> GetMandatoryParameters()
         {
-            return _parameters.Where(x => x.Mandatory).ToList();
+            return Parameters.Where(x => x.Mandatory).ToList();
         }
     }
 }

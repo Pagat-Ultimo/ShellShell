@@ -1,9 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-
-namespace ShellShell.Core.Constants
+﻿namespace ShellShell.Core.Constants
 {
-    public enum CommandExceptionCode { Unknown, UnknownSwitch, CommandAlreadyConfigured }
+    /// <summary>
+    /// Exception codes thrown from Commands
+    /// </summary>
+    public enum CommandExceptionCode
+    {
+        /// <summary>
+        /// Unknown error
+        /// </summary>
+        Unknown,
+
+        /// <summary>
+        /// Switch was entered but not configured
+        /// </summary>
+        UnknownSwitch,
+
+        /// <summary>
+        /// The Command you tried to configure was already configured on the ShellShellExecutor
+        /// </summary>
+        CommandAlreadyConfigured
+    }
 }
