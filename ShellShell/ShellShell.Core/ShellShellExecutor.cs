@@ -14,13 +14,15 @@ namespace ShellShell.Core
         private readonly List<ShellCommand> _commandList;
         private readonly List<string> _globalMandatoryExceptions;
         private readonly List<ShellParameter> _globalShellParameters;
-
         private List<string> _mandatoryParameters;
 
         #endregion
 
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of the ShellShellExecutor class
+        /// </summary>
         public ShellShellExecutor()
         {
             _commandList = new List<ShellCommand>();
@@ -36,23 +38,42 @@ namespace ShellShell.Core
 
         #region  Properties
 
+        /// <summary>
+        /// Gets or sets the character to identify a switch
+        /// </summary>
         public string SwitchChar { get; set; } = "/";
+        /// <summary>
+        /// Gets or sets the character to identify a parameter
+        /// </summary>
         public string ParamChar { get; set; } = "-";
 
+        /// <summary>
+        /// Gets the current command that will be executed
+        /// </summary>
         public ShellCommand CurrentCommand { get; private set; }
 
+        /// <summary>
+        /// Gets or sets if a default command should be used. If true the first registered command will be executed if the user omits the command. Default is false.
+        /// </summary>
         public bool UseDefaultCommand { get; set; } = false;
 
         #endregion
 
         #region Public Methods
 
+        /// <summary>
+        /// Disabled the build in help command
+        /// </summary>
         public void DisableHelpCommand()
         {
             if (_commandList.Exists(x => x.Name == "help"))
                 _commandList.RemoveAll(x => x.Name == "help");
         }
 
+        /// <summary>
+        /// Parses the command line to evaluate which command should be executed and fills the parameters/switches with values
+        /// </summary>
+        /// <param name="args">The command line text the user entered</param>
         public void SetArguments(string[] args)
         {
             CheckArgumentForCommand(args);
@@ -69,6 +90,9 @@ namespace ShellShell.Core
             CheckArgumentForParameters(args);
         }
 
+        /// <summary>
+        /// Executes the CurrentCommand if its set. SetArguments has to be called first.
+        /// </summary>
         public void Execute()
         {
             if (CurrentCommand == null)
@@ -76,6 +100,10 @@ namespace ShellShell.Core
             CurrentCommand.CommandAction.Invoke(this);
         }
 
+        /// <summary>
+        /// Configures a command to be available for the user
+        /// </summary>
+        /// <param name="command"></param>
         public void ConfigureCommand(ShellCommand command)
         {
             if (_commandList.Exists(x => x.Name == command.Name))
@@ -84,6 +112,12 @@ namespace ShellShell.Core
             _commandList.Add(command);
         }
 
+        /// <summary>
+        /// Configures a global parameters. Global parameters will be available for all registered commands
+        /// </summary>
+        /// <param name="name">The name of the parameter</param>
+        /// <param name="isMandatory">If the parameter should be mandatory</param>
+        /// <param name="defaultValue">The default value if the parameter was not set by the user</param>
         public void ConfigureGlobalParameter(string name, bool isMandatory = false, string defaultValue = "")
         {
             if (_globalShellParameters.Exists(x => x.Name == name))
@@ -92,11 +126,16 @@ namespace ShellShell.Core
             {
                 Name = name,
                 Mandatory = isMandatory,
-                Value = ""
+                Value = defaultValue
             };
             _globalShellParameters.Add(parameter);
         }
 
+        /// <summary>
+        /// Gets the value for a specific parameter as a String
+        /// </summary>
+        /// <param name="name">The name of the parameter</param>
+        /// <returns>Parameter value as String</returns>
         public string GetParameterAsString(string name)
         {
             if (!_globalShellParameters.Exists(x => x.Name == name))
@@ -105,6 +144,11 @@ namespace ShellShell.Core
             return par;
         }
 
+        /// <summary>
+        /// Gets the value for specific parameter as Int
+        /// </summary>
+        /// <param name="name">The name of the parameter</param>
+        /// <returns>Parameter value as Int</returns>
         public int GetParameterAsInt(string name)
         {
             if (!_globalShellParameters.Exists(x => x.Name == name))
@@ -120,6 +164,11 @@ namespace ShellShell.Core
             }
         }
 
+        /// <summary>
+        /// Gets the value for a specific switch
+        /// </summary>
+        /// <param name="name">The name of the switch to look for</param>
+        /// <returns>The switch value</returns>
         public bool GetSwitch(string name)
         {
             return CurrentCommand.GetSwitchValue(name);

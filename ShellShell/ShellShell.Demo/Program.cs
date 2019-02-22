@@ -6,13 +6,13 @@ namespace ShellShell.Demo
 {
     class Program
     {
-        public static ShellShellExecutor Shell = null;
+        public static ShellShellExecutor Shell;
         static void Main(string[] args)
         {
             Shell = new ShellShellExecutor();
             var cmd = new ShellCommand(CommandNames.Command2, Command1);
             cmd.ConfigureSwitch(SwitchesNames.Switch1);
-            cmd.ConfigureParameter(ParameterNames.Parameter1, false);
+            cmd.ConfigureParameter(ParameterNames.Parameter1);
             cmd.ConfigureParameter(ParameterNames.Parameter2, false, "default1");
             Shell.ConfigureCommand(cmd);
 
