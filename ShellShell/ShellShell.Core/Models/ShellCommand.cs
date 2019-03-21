@@ -39,7 +39,7 @@ namespace ShellShell.Core.Models
         /// <summary>
         /// The Action that will be invoked if the command should be executed
         /// </summary>
-        public Action<ShellShellExecutor> CommandAction { get; }
+        public Action<ShellShellExecutor> CommandAction { get; protected set; }
         /// <summary>
         /// Gets the parameters that are configured for this command
         /// </summary>
@@ -59,6 +59,20 @@ namespace ShellShell.Core.Models
         {
             Name = name;
             CommandAction = action;
+            Description = description;
+            Aliases = new List<string>();
+            _switches = new Dictionary<string, bool>();
+            Parameters = new List<ShellParameter>();
+        }
+
+        /// <summary>
+        /// Creates a new instance of the ShellCommand class
+        /// </summary>
+        /// <param name="name">The name of the command</param>
+        /// <param name="description">The description of the command. Will be used for the build in help command</param>
+        public ShellCommand(string name, string description = "")
+        {
+            Name = name;
             Description = description;
             Aliases = new List<string>();
             _switches = new Dictionary<string, bool>();
@@ -141,9 +155,11 @@ namespace ShellShell.Core.Models
             var parameter = Parameters.FirstOrDefault(x => x.Name == name);
             if (parameter != null)
                 parameter.Value = value;
-
-            if (ThrowOnInvalidParameter)
-                throw new Exception($"Parameter {name} not recognized");
+            else
+            {
+                if (ThrowOnInvalidParameter)
+                    throw new Exception($"Parameter {name} not recognized");
+            }
         }
 
         /// <summary>

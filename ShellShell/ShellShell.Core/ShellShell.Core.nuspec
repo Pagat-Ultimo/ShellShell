@@ -3,7 +3,7 @@
     <metadata>
         <id>ShellShell</id>
 
-        <version>1.0.0</version>
+        <version>1.0.3</version>
 
         <authors>Razzil Technologies, Project lead: Christian Kovacs </authors>
 
@@ -22,7 +22,7 @@
 
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
 
-        <releaseNotes>Initial Release</releaseNotes>
+        <releaseNotes>Fixed minor issues positional commands</releaseNotes>
 
         <description>Simple library for creating CLI applications</description>
 
@@ -31,13 +31,6 @@
         <!-- Tags appear in the gallery and can be used for tag searches -->
         <tags>shell cli</tags>
 
-        <!-- Dependencies are automatically installed when the package is installed
-        <dependencies>
-            <dependency id="Newtonsoft.Json" version="11.0.2" />
-            <dependency id="Steadfast.Web.Core" version="1.0.0" />
-        </dependencies>  -->
-
-        
     </metadata>
 
     <files>

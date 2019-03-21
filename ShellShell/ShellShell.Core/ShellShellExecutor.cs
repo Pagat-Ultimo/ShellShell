@@ -32,6 +32,7 @@ namespace ShellShell.Core
             var helpCmd = new ShellCommand("help", HelpCommand);
             helpCmd.ConfigureParameter("cmd");
             ConfigureCommand(helpCmd);
+            DefaultCommand = helpCmd;
         }
 
         #endregion
@@ -56,6 +57,8 @@ namespace ShellShell.Core
         /// Gets or sets if a default command should be used. If true the first registered command will be executed if the user omits the command. Default is false.
         /// </summary>
         public bool UseDefaultCommand { get; set; } = false;
+
+        public ShellCommand DefaultCommand { get; set; }
 
         #endregion
 
@@ -213,19 +216,23 @@ namespace ShellShell.Core
         private void CheckArgumentForParameters(string[] args)
         {
             var parameterCount = 0;
-            for (int i = 1; i < args.Length; i++)
+            int i = 0;
+            if (args.Length > 0 && args[0] == CurrentCommand.Name)
+                i = 1;
+            for (; i < args.Length; i++)
             {
                 var currentArg = args[i];
 
                 if (currentArg.StartsWith(SwitchChar))
                     continue;
 
-                if (!currentArg.StartsWith(ParamChar) && CurrentCommand.Parameters.Count < parameterCount)
+                if (!currentArg.StartsWith(ParamChar) && CurrentCommand.Parameters.Count >= parameterCount)
                 {
                     var positionalParameter = CurrentCommand.Parameters[parameterCount];
                     CurrentCommand.SetParameter(positionalParameter.Name, currentArg);
                     if (_mandatoryParameters.Contains(positionalParameter.Name))
                         _mandatoryParameters.Remove(positionalParameter.Name);
+                    parameterCount++;
                     continue;
                 }
 
@@ -233,7 +240,10 @@ namespace ShellShell.Core
                     throw new Exception($"Missing value for parameter {args[i]}");
                 var parameterName = args[i].Substring(1, args[i].Length - 1);
                 if (!SetGlobalParameter(parameterName, args[i + 1]))
+                {
                     CurrentCommand.SetParameter(parameterName, args[i + 1]);
+                    parameterCount++;
+                }
                 if (_mandatoryParameters.Contains(parameterName))
                     _mandatoryParameters.Remove(parameterName);
                 i++;
@@ -255,11 +265,10 @@ namespace ShellShell.Core
         {
             if (_commandList.Count == 0)
                 throw new Exception("No commands defined in this application");
-            var defaultCommand = _commandList.First();
             if (args.Length == 0)
             {
                 if (UseDefaultCommand)
-                    CurrentCommand = defaultCommand;
+                    CurrentCommand = DefaultCommand;
                 else
                     throw new Exception("No suitable CurrentCommand found");
             }
@@ -268,7 +277,7 @@ namespace ShellShell.Core
                 if (args[0].StartsWith(SwitchChar))
                 {
                     if (UseDefaultCommand)
-                        CurrentCommand = defaultCommand;
+                        CurrentCommand = DefaultCommand;
                     else
                         throw new Exception("No suitable CurrentCommand found");
                 }
@@ -276,7 +285,16 @@ namespace ShellShell.Core
                 {
                     CurrentCommand = _commandList.FirstOrDefault(x => x.Name == args[0]);
                     if (CurrentCommand == null)
-                        throw new Exception("No suitable CurrentCommand found");
+                    {
+                        if (UseDefaultCommand)
+                        {
+                            CurrentCommand = DefaultCommand;
+                        }
+                        else
+                        {
+                            throw new Exception("No suitable CurrentCommand found");
+                        }
+                    }
                 }
             }
         }
