@@ -148,9 +148,11 @@ namespace ShellShell.Core.Models
         {
             if (_switches.ContainsKey(name))
                 _switches[name] = value;
-
-            if (ThrowOnInvalidSwitch)
-                throw new CommandArgumentException($"Switch {name} is not known!", CommandExceptionCode.UnknownSwitch);
+            else
+            {
+                if (ThrowOnInvalidSwitch)
+                    throw new CommandArgumentException($"Switch {name} is not known!", CommandExceptionCode.UnknownSwitch);
+            }
         }
 
         /// <summary>
