@@ -14,6 +14,9 @@ namespace ShellShell.Core.Models
         #region Fields
 
         private readonly Dictionary<string, bool> _switches;
+        /// <summary>
+        /// Defines aliases for commands
+        /// </summary>
         public readonly List<string> Aliases;
 
         #endregion
@@ -24,22 +27,27 @@ namespace ShellShell.Core.Models
         /// Gets the name of the command
         /// </summary>
         public string Name { get; }
+
         /// <summary>
         /// Gets the description of the command
         /// </summary>
         public string Description { get; }
+
         /// <summary>
         /// Gets or sets if an exception should be thrown if an invalid switch was passed to the command. Default is TRUE
         /// </summary>
         public bool ThrowOnInvalidSwitch { get; set; } = true;
+
         /// <summary>
         /// Gets or sets if an exception should be thrown if an not configured parameter was passed to the command. Default is TRUE
         /// </summary>
         public bool ThrowOnInvalidParameter { get; set; } = true;
+
         /// <summary>
         /// The Action that will be invoked if the command should be executed
         /// </summary>
         public Action<ShellShellExecutor> CommandAction { get; protected set; }
+
         /// <summary>
         /// Gets the parameters that are configured for this command
         /// </summary>
@@ -152,7 +160,7 @@ namespace ShellShell.Core.Models
         /// <param name="value">The value to be set</param>
         public void SetParameter(string name, string value)
         {
-            var parameter = Parameters.FirstOrDefault(x => x.Name == name);
+            ShellParameter parameter = Parameters.FirstOrDefault(x => x.Name == name);
             if (parameter != null)
                 parameter.Value = value;
             else
@@ -171,7 +179,7 @@ namespace ShellShell.Core.Models
         {
             if (!Parameters.Exists(x => x.Name == name))
                 throw new Exception($"Parameter {name} not recognized");
-            var par = Parameters.FirstOrDefault(x => x.Name == name)?.Value;
+            string par = Parameters.FirstOrDefault(x => x.Name == name)?.Value;
             return par;
         }
 
@@ -184,7 +192,7 @@ namespace ShellShell.Core.Models
         {
             if (!Parameters.Exists(x => x.Name == name))
                 throw new Exception($"Parameter {name} not recognized");
-            var par = Parameters.FirstOrDefault(x => x.Name == name)?.Value;
+            string par = Parameters.FirstOrDefault(x => x.Name == name)?.Value;
             if (int.TryParse(par, out var result))
             {
                 return result;
@@ -202,6 +210,14 @@ namespace ShellShell.Core.Models
         public List<ShellParameter> GetMandatoryParameters()
         {
             return Parameters.Where(x => x.Mandatory).ToList();
+        }
+
+        /// <summary>
+        /// Prints out the description for the command
+        /// </summary>
+        public virtual void PrintUsage()
+        {
+            Console.WriteLine(Description);
         }
 
         #endregion

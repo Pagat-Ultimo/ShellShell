@@ -7,6 +7,9 @@ using ShellShell.Core.Models;
 
 namespace ShellShell.Core
 {
+    /// <summary>
+    /// This is the main class for the ShellShell functionality. Create new instance and configure commands on it. Then run the SetArguments and Execute methods on it
+    /// </summary>
     public class ShellShellExecutor
     {
         #region Fields
@@ -15,6 +18,35 @@ namespace ShellShell.Core
         private readonly List<string> _globalMandatoryExceptions;
         private readonly List<ShellParameter> _globalShellParameters;
         private List<string> _mandatoryParameters;
+
+        #endregion
+
+        #region  Properties
+
+        /// <summary>
+        /// Gets or sets the character to identify a switch
+        /// </summary>
+        public string SwitchChar { get; set; } = "/";
+
+        /// <summary>
+        /// Gets or sets the character to identify a parameter
+        /// </summary>
+        public string ParamChar { get; set; } = "-";
+
+        /// <summary>
+        /// Gets the current command that will be executed
+        /// </summary>
+        public ShellCommand CurrentCommand { get; private set; }
+
+        /// <summary>
+        /// Gets or sets if a default command should be used. If true the first registered command will be executed if the user omits the command. Default is false.
+        /// </summary>
+        public bool UseDefaultCommand { get; set; } = false;
+
+        /// <summary>
+        /// Gets or sets the default command that will be used if UseDefaultCommand is active and no command is passed to Groxy
+        /// </summary>
+        public ShellCommand DefaultCommand { get; set; }
 
         #endregion
 
@@ -34,31 +66,6 @@ namespace ShellShell.Core
             ConfigureCommand(helpCmd);
             DefaultCommand = helpCmd;
         }
-
-        #endregion
-
-        #region  Properties
-
-        /// <summary>
-        /// Gets or sets the character to identify a switch
-        /// </summary>
-        public string SwitchChar { get; set; } = "/";
-        /// <summary>
-        /// Gets or sets the character to identify a parameter
-        /// </summary>
-        public string ParamChar { get; set; } = "-";
-
-        /// <summary>
-        /// Gets the current command that will be executed
-        /// </summary>
-        public ShellCommand CurrentCommand { get; private set; }
-
-        /// <summary>
-        /// Gets or sets if a default command should be used. If true the first registered command will be executed if the user omits the command. Default is false.
-        /// </summary>
-        public bool UseDefaultCommand { get; set; } = false;
-
-        public ShellCommand DefaultCommand { get; set; }
 
         #endregion
 
@@ -186,17 +193,19 @@ namespace ShellShell.Core
             var cmdParam = GetParameterAsString("cmd");
             if (cmdParam != "")
             {
-                if (!_commandList.Exists(x => x.Name == cmdParam))
-                    Console.WriteLine($"Command {cmdParam} not recognized");
+                ShellCommand command = _commandList.FirstOrDefault(x => x.Name == cmdParam);
+                if (command == null)
+                    Console.WriteLine($"Command {cmdParam} not found");
                 else
                 {
-                    Console.WriteLine($"Available Parameters for cmd {cmdParam}:");
+                    Console.WriteLine($"Command name: {command.Name}");                
+                    command.PrintUsage();
                 }
             }
             else
             {
                 Console.WriteLine("Available Commands:");
-                foreach (var command in _commandList)
+                foreach (ShellCommand command in _commandList)
                 {
                     Console.WriteLine(command.Name);
                 }
@@ -228,7 +237,7 @@ namespace ShellShell.Core
 
                 if (!currentArg.StartsWith(ParamChar) && CurrentCommand.Parameters.Count >= parameterCount)
                 {
-                    var positionalParameter = CurrentCommand.Parameters[parameterCount];
+                    ShellParameter positionalParameter = CurrentCommand.Parameters[parameterCount];
                     CurrentCommand.SetParameter(positionalParameter.Name, currentArg);
                     if (_mandatoryParameters.Contains(positionalParameter.Name))
                         _mandatoryParameters.Remove(positionalParameter.Name);
@@ -244,6 +253,7 @@ namespace ShellShell.Core
                     CurrentCommand.SetParameter(parameterName, args[i + 1]);
                     parameterCount++;
                 }
+
                 if (_mandatoryParameters.Contains(parameterName))
                     _mandatoryParameters.Remove(parameterName);
                 i++;
@@ -301,7 +311,7 @@ namespace ShellShell.Core
 
         private bool SetGlobalParameter(string name, string value)
         {
-            var parameterToSet = _globalShellParameters.FirstOrDefault(x => x.Name == name);
+            ShellParameter parameterToSet = _globalShellParameters.FirstOrDefault(x => x.Name == name);
             if (parameterToSet == null)
                 return false;
             parameterToSet.Value = value;

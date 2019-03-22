@@ -4,4 +4,5 @@
 	<s:String x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=18B20581C1764E43A941DE77965A94C0/RelativePath/@EntryValue">..\razzil_v_1_0_1.DotSettings</s:String>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/FileInjectedLayer/=18B20581C1764E43A941DE77965A94C0/@KeyIndexDefined">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File18B20581C1764E43A941DE77965A94C0/@KeyIndexDefined">True</s:Boolean>
-	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File18B20581C1764E43A941DE77965A94C0/RelativePriority/@EntryValue">1</s:Double></wpf:ResourceDictionary>
+	<s:Double x:Key="/Default/Environment/InjectedLayers/InjectedLayerCustomization/=File18B20581C1764E43A941DE77965A94C0/RelativePriority/@EntryValue">1</s:Double>
+	<s:Boolean x:Key="/Default/UserDictionary/Words/=groxy/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>
