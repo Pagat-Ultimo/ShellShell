@@ -36,7 +36,7 @@ steps:
     versioningScheme: 'byPrereleaseNumber'
     majorVersion: '1' # Required when versioningScheme == ByPrereleaseNumber
     minorVersion: '0' # Required when versioningScheme == ByPrereleaseNumber
-    patchVersion: '0' # Required when versioningScheme == ByPrereleaseNumber
+    patchVersion: '5' # Required when versioningScheme == ByPrereleaseNumber
     packTimezone: 'utc'
 
 # Publish Build Artifacts
